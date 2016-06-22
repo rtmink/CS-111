@@ -1,0 +1,102 @@
+Name: Ryan Trihernawan
+UCLA ID: 904-063-131
+
+Collaborators:
+
+-------------------------------------------------------------------------------
+
+Response to Exercise 1:
+
+The name of the scheduling algorithm is: Round-robin
+
+
+(Exercise 2 is a coding exercise)
+schedos-1.c: add ‘sys_exit(0)’;
+schedos-kern.c: implement Strict Priority Scheduling Algorithm
+
+Look at ‘schedos-kern.c’ and ‘schedos-1.c’ for more info
+
+
+Response to Exercise 3:
+
+Average turnaround time for scheduling_algorithm 0:
+((1280 - 3) + (1280 - 2) + (1280 - 1) + 1280) / 4 = 1278.5 ms 
+
+Average turnaround time for scheduling_algorithm 1:
+(320 + (320 * 2) + (320 * 3) + (320 * 4)) / 4 = 800 ms
+
+Average wait time for scheduling_algorithm 0:
+(0 + 1 + 2 + 3) / 4 = 1.5 ms
+
+Average wait time for scheduling_algorithm 1:
+(0 + 320 + (320 * 2) + (320 * 3)) / 4 = 480 ms
+  
+
+Exercise 4:
+
+Did you complete Exercise 4A, Exercise 4B, or both for extra credit?
+Both Exercise 4A and 4B.
+
+4A) 
+schedos-app.h: implement a system call named ’sys_set_priority’, which lets a process to set its priority level.
+
+schedos-kern.c: implement Priority Scheduling Algorithm in which smaller priority levels correspond to higher priority.
+
+Look at ‘schedos-kern.h’, ‘schedos-kern.c’, ‘schedos-app.h’ for more info. 
+
+4B) 
+schedos-app.h: implement a system call named ‘sys_set_share’, which lets a process to set its share. 
+
+schedos-kern.c: implement Proportional-Share Scheduling Algorithm in which larger shares correspond higher priority. 
+
+Look at ‘schedos-kern.h’, ‘schedos-kern.c’, ‘schedos-app.h’ for more info.
+
+Exercise 5: 
+The first known timer interrupt occurs during the execution of process 4 because right before it prints its pid, it gets interrupted.
+
+
+(Exercise 6 is a coding exercise)
+Use ‘atomic-swap’ from ‘x86sync.h’ to implement the lock.
+
+schedos.h: add ‘lock’ which can be either 0 (unlocked) or 1 (locked).
+
+schedos-kern.c: initialize the lock to 0 (unlocked) 
+
+schedos-1.c: add ‘atomic_swap’ from ‘x86sync.h’ to implement the lock for atomic write.
+
+schedos-symbols.ld: add ‘PROVIDE(lock = 0x198004);’
+
+Look at ‘schedos.h’, ‘schedos-kern.c’, ‘schedos-1.c’, ‘schedos-symbols.ld’ for more info.
+
+
+Anything else you'd like us to know:
+For Exercise 2, 4A, 4B, 6, 7, 8, look at comments that begin with ‘//Exercise n’ in the specified files. Note that n is the exercise number.
+
+Also, at the top of ‘schedos-kern.c’, set the defined ‘ALGO_NO’ to the preferred algorithm number. Refer to the table below for appropriate algorithm number.
+
+Scheduling Algorithm Table
+No	Algorithm
+0	Round Robin
+1	Strict Priority
+2	Priority
+3	Proportional-Share
+4  	Lottery
+
+
+Extra credit exercises:
+
+Exercise 7:
+schedos-kern.h, schedos-kern.c: implement Lottery Scheduling Algorithm in which process’ pid corresponds to process’ ticket. The scheduler randomly picks the ticket (from 1 to 4) and runs the process with the chosen ticket.
+
+ma_rand.h, ma_rand.c: implement ‘ma_rand()’, a random number generator function that the scheduler calls to get a random number as the ticket number. 
+ 
+GNUmakefile: add ma_rand.o
+
+Look at ‘schedos-kern.h’, ‘schedos-kern.c’, ‘GNUmakefile’, ‘ma_rand.h’, ‘ma_rand.c’ for more info.
+
+Exercise 8:
+Similar to exercise 6 except ‘compare_and_swap’ is used instead of ‘atomic_swap’.
+
+schedos-1.c: add ‘compare_and_swap’ from ‘x86sync.h’ to implement the lock for atomic write.
+
+Look at ‘schedos-1.c’ for more info.

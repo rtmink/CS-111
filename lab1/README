@@ -1,0 +1,6 @@
+This is a skeleton for CS 111 Lab 1.
+
+Ryan Trihernawan (904-063-131) and Justine Bateman (704-161-651)
+
+This shell implements a two-step process to build commands from tokens, 
+which are derived from characters.

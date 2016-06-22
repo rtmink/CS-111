@@ -1,0 +1,83 @@
+Name: Ryan Trihernawan
+UCLA ID: 904-063-131
+
+Collaborators:
+
+-------------------------------------------------------------------------------
+
+Response to Exercise 1: No, because scheduling another process 
+can potentially overwrite eax register because there is no 
+memory isolation in WeensyOS. eax register is the one that holds 
+the return value for sys_getpid().
+
+Exercise 2: See my comments for do_fork() and copy_stack() 
+in mpos-kern.c
+
+Exercise 3: 
+I added a field called "p_waiter_pid" to struct process (in mpos-kern.h)
+which holds the pid of the caller/waiter.
+
+In INT_SYS_WAIT, I set the current process's state to BLOCKED and
+save the current process's pid in the requested process's "p_waiter_pid".
+
+In INT_SYS_EXIT, I check if the current process has a process waiting for it.
+If so, I unblock the blocked process and indicate that the current process is
+no longer a process (setting the current process's state to EMPTY). 
+
+Also see my comments for INT_SYS_WAIT and INT_SYS_EXIT
+ in mpos-kern.c.
+
+Exercise 4: See my comments for INT_SYS_WAIT and INT_SYS_EXIT
+ in mpos-kern.c
+
+Anything else you'd like us to know:
+I app_printf "W" in mpos-app.c to check my work for Exercise 3
+
+
+Extra credit exercises:
+Exercise 5:
+
+void
+start(void)
+{
+	int x = 0;
+	volatile int *xp = &x;	 // pointer to volatile int
+	int * volatile xpv = &x; // volatile pointer to non-volatile int
+
+	pid_t p = sys_fork();
+	if (p == 0)
+	{
+		*xp = 1;    // set the child's x to 1 in MiniprocOS
+		*xpv = 1;   // set the parent's x to 1 in MiniprocOS
+	}
+	else if (p > 0)
+		sys_wait(p);
+	app_printf("%d", x);
+	sys_exit(0);
+}
+
+*** See line 20 to 33 in mpos-app.c to see the above code
+
+Exercise 6:
+
+The 'sys_newthread' system call creates a new process(thread).
+This thread shares the same space as the calling process. 
+Also, it begins executing start_function. The system call returns
+the child thread's process id.
+
+See:
+mpos.h line 14
+mpos-app.h line 185-195
+mpos-kern.c line 130, 276-280, 354-374
+
+Exercise 7
+
+'sys_kill' allows a process to kill another process.
+It sets the state of the requested process to ZOMBIE.
+
+See:
+mpos.h line 13
+mpos-app.h line 169-179
+mpos-kern.c line 243-273
+mpos-app2.c line 65-70
+
